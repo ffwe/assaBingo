@@ -3,10 +3,6 @@
 <meta charset="utf-8" />
     <head>
         <style>
-            img {
-                width: 760px;
-                height: 886px;
-            }
             canvas {
                 border: 5px solid black;
             }
@@ -32,10 +28,10 @@
         const bg = new Image();
         bg.crossOrigin="anonymous";
         function reset(){
-            canvas.width  = 760;//635;
-            canvas.height = 886;//615;
+            canvas.width  = window.innerWidth - 100;//760;//635;
+            canvas.height = window.innerWidth * 886 / 760;//615;
             bg.addEventListener("load", function() {
-                ctx.drawImage(bg,0,0);
+                ctx.drawImage(bg,0,0, canvas.width, canvas.height);
             }, false);
             bg.src = './1.jpg';
         }
@@ -73,6 +69,8 @@
                 draw();
             }
         }
+        window.onresize = reset;
+
         download_img = function(el) {
             var image = canvas.toDataURL("image/jpg");
             el.href = image;
