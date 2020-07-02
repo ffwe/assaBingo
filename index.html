@@ -73,11 +73,8 @@
             }
             var link = document.getElementById('link');
             link.setAttribute('download', 'assaBingo.png');
-            var img = new Image();
-            img.crossOrigin = "anonymous";
-            img.src = canvas.toDataURL('image/png');
             link.onclick = ()=>{
-                downloadImage(img, "bingo");
+                window.open(canvas.toDataURL('image/png'));
             };
         }
         function downloadImage(img, fileName) {
