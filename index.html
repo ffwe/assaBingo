@@ -15,7 +15,7 @@
     <body>
         <canvas id='myCanvas'>
         </canvas>
-        <a id="link">저장하기</a>
+        <button id="link">저장하기</button>
     </body>
     <script>
         const canvas = document.getElementById('myCanvas');
@@ -28,15 +28,15 @@
             [false, false, false, false, false],
             [false, false, false, false, false],
         ]
-        const img = new Image();
+        const bg = new Image();
+        bg.crossOrigin="anonymous";
         function reset(){
             canvas.width  = 760;//635;
             canvas.height = 886;//615;
-
-            img.addEventListener("load", function() {
+            bg.addEventListener("load", function() {
                 ctx.drawImage(img,0,0);
             }, false);
-            img.src = './1.jpg';
+            bg.src = './1.jpg';
         }
         function draw(){
             ctx.drawImage(img,0,0);
@@ -73,8 +73,47 @@
             }
             var link = document.getElementById('link');
             link.setAttribute('download', 'assaBingo.png');
-            link.setAttribute('href', canvas.toDataURL('image/png'));
+            var img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = canvas.toDataURL('image/png');
+            link.onclick = ()=>{
+                downloadImage(img, "bingo");
+            };
         }
+        function downloadImage(img, fileName) {
+            var imgData = atob(img.src.split(',')[1]),
+                len = imgData.length,
+                buf = new ArrayBuffer(len),
+                view = new Uint8Array(buf),
+                blob,
+                i;
+
+            for (i = 0; i < len; i++) {
+                view[i] = imgData.charCodeAt(i) & 0xff; // masking
+            }
+
+            blob = new Blob([view], {
+                type: 'application/octet-stream',
+            });
+
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(blob, fileName);
+            } else {
+                //var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.style = 'display: none';
+                //a.href = url;
+                a.href = img.src;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+
+                setTimeout(function () {
+                document.body.removeChild(a);
+                //URL.revokeObjectURL(url);
+                }, 100);
+            }
+            }
     </script>
 </html>
 
