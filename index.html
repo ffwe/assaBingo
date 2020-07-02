@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<meta charset="utf-8" />
+    <head>
+        <style>
+            img {
+                width: 760px;
+                height: 886px;
+            }
+            canvas {
+                border: 5px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id='myCanvas'>
+        </canvas>
+        <a id="link">저장하기</a>
+    </body>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext("2d");
+        const box = {x: 70, y: 240};
+        const check = [
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+        ]
+        const img = new Image();
+        function reset(){
+            canvas.width  = 760;//635;
+            canvas.height = 886;//615;
+
+            img.addEventListener("load", function() {
+                ctx.drawImage(img,0,0);
+            }, false);
+            img.src = './1.jpg';
+        }
+        function draw(){
+            ctx.drawImage(img,0,0);
+
+            for(let i = 0; i < 5; i++){
+                for(let j = 0; j < 5; j++){
+                    if(check[i][j])
+                        drawCircle(i,j);
+                }
+            }
+        }
+        function drawCircle(x,y){
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.arc(box.x+55+130*x, box.y+55+125*y, 60, 0, 2 * Math.PI, true);
+            ctx.stroke();
+        }
+        window.onload = function(){
+            reset();
+            canvas.onclick = function(event){
+                const mouse = {x: event.layerX, y: event.layerY};
+                const result = {x: -1, y: -1}
+                for(let i = 0; i < 5; i++){
+                    if(box.x+130*i < mouse.x && mouse.x < box.x+130*(i+1)){
+                        result.x = i;
+                    }
+                    if(box.y+125*i < mouse.y && mouse.y < box.y+125*(i+1)){
+                        result.y = i;
+                    }
+                }
+
+                check[result.x][result.y] = !check[result.x][result.y];
+                draw();
+            }
+            var link = document.getElementById('link');
+            link.setAttribute('download', 'assaBingo.png');
+            link.setAttribute('href', canvas.toDataURL('image/png'));
+        }
+    </script>
+</html>
+
