@@ -15,8 +15,9 @@
     <body>
         <canvas id='myCanvas'>
         </canvas>
+        <a id="download" download="bingo.png" href="" onclick="download_img(this);">모바일 다운로드</a>
         <a id="download" download="bingo.png">
-            <button type="button" id="save">저장하기</button>
+            <button type="button" id="save">PC 다운로드</button>
         </a>
     </body>
     <script>
@@ -82,6 +83,10 @@
             }
             document.getElementById('save').addEventListener('click', download);
         }
+        download_img = function(el) {
+            var image = canvas.toDataURL("image/jpg");
+            el.href = image;
+        };
     </script>
 </html>
 
