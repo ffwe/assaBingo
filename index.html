@@ -15,10 +15,8 @@
     <body>
         <canvas id='myCanvas'>
         </canvas>
-        <a id="download" download="bingo.png" href="" onclick="download_img(this);">모바일 다운로드</a>
-        <a id="download" download="bingo.png">
-            <button type="button" id="save">PC 다운로드</button>
-        </a>
+        <a id="download" download="bingo.png" href="" onclick="download_img(this);">다운로드</a>
+
     </body>
     <script>
         const canvas = document.getElementById('myCanvas');
@@ -74,14 +72,6 @@
                 check[result.x][result.y] = !check[result.x][result.y];
                 draw();
             }
-            function download() {
-                var download = document.getElementById("download");
-                var image = document.getElementById("myCanvas").toDataURL("image/png")
-                    .replace("image/png", "image/octet-stream");
-                download.setAttribute("href", image);
-                download.setAttribute("download","bingo.png");
-            }
-            document.getElementById('save').addEventListener('click', download);
         }
         download_img = function(el) {
             var image = canvas.toDataURL("image/jpg");
