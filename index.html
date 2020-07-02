@@ -16,7 +16,7 @@
         <canvas id='myCanvas'>
         </canvas>
         <a id="download" download="bingo.png">
-            <button type="button" onClick="download()">저장하기</button>
+            <button type="button" id="save">저장하기</button>
         </a>
     </body>
     <script>
@@ -80,6 +80,7 @@
                 download.setAttribute("href", image);
                 download.setAttribute("download","bingo.png");
             }
+            document.getElementById('save').addEventListener('click', download);
         }
     </script>
 </html>
