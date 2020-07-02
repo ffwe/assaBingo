@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<meta charset="utf-8" />
+    <head>
+        <style>
+            canvas {
+                border: 5px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id='myCanvas'>
+        </canvas>
+        <a id="download" download="bingo.png" href="" onclick="download_img(this);">
+            <h1>다운로드</h1>
+        </a>
+
+    </body>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext("2d");
+        const box = {x: 70, y: 240};
+        const check = [
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+        ]
+        const bg = new Image();
+        bg.crossOrigin="anonymous";
+        function reset(){
+            canvas.width  = window.innerWidth - 100;//760;//635;
+            canvas.height = window.innerWidth * 886 / 760;//615;
+            bg.addEventListener("load", function() {
+                ctx.drawImage(bg,0,0, canvas.width, canvas.height);
+            }, false);
+            bg.src = './1.jpg';
+        }
+        function draw(){
+            ctx.drawImage(bg,0,0);
+
+            for(let i = 0; i < 5; i++){
+                for(let j = 0; j < 5; j++){
+                    if(check[i][j])
+                        drawCircle(i,j);
+                }
+            }
+        }
+        function drawCircle(x,y){
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.arc(box.x+55+130*x, box.y+55+125*y, 60, 0, 2 * Math.PI, true);
+            ctx.stroke();
+        }
+        window.onload = function(){
+            reset();
+            canvas.onclick = function(event){
+                const mouse = {x: event.layerX, y: event.layerY};
+                const result = {x: -1, y: -1}
+                for(let i = 0; i < 5; i++){
+                    if(box.x+130*i < mouse.x && mouse.x < box.x+130*(i+1)){
+                        result.x = i;
+                    }
+                    if(box.y+125*i < mouse.y && mouse.y < box.y+125*(i+1)){
+                        result.y = i;
+                    }
+                }
+
+                check[result.x][result.y] = !check[result.x][result.y];
+                draw();
+            }
+        }
+        window.onresize = reset;
+
+        download_img = function(el) {
+            var image = canvas.toDataURL("image/jpg");
+            el.href = image;
+        };
+    </script>
+</html>
+
