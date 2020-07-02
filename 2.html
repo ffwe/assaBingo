@@ -31,14 +31,14 @@
         bg.crossOrigin="anonymous";
         function reset(){
             canvas.width  = window.innerWidth - 100;//760;//635;
-            canvas.height = window.innerWidth * 886 / 760;//615;
+            canvas.height = canvas.width * 886 / 760;//615;
             bg.addEventListener("load", function() {
                 ctx.drawImage(bg,0,0, canvas.width, canvas.height);
             }, false);
             bg.src = './2.jpg';
         }
         function draw(){
-            ctx.drawImage(bg,0,0);
+            ctx.drawImage(bg,0,0, canvas.width, canvas.height);
 
             for(let i = 0; i < 5; i++){
                 for(let j = 0; j < 5; j++){
